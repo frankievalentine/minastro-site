@@ -1,0 +1,10 @@
+{
+  "name": "minastro",
+  "short_name": "minastro",
+  "description": "A static preview of the Minastro personal site template.",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }],
+  "start_url": "/",
+  "background_color": "#1d1f21",
+  "theme_color": "#ffffff",
+  "display": "standalone"
+}

@@ -1,0 +1,58 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { posts, projects } from "../data/fixtures";
+import { formatDate, readingTime } from "../utils";
+
+const statusLabel: Record<string, string> = { active: "Active", wip: "WIP", archived: "Archived" };
+---
+
+<Layout title="About" currentPage="/">
+  <div class="mx-auto max-w-3xl px-6 py-12 md:py-16">
+    <header class="mb-12 max-w-2xl">
+      <div class="mb-3 flex items-center gap-2">
+        <span class="badge-secondary">minastro</span>
+        <a href="https://emdashcms.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-sm text-xs font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <span class="inline-flex size-3.5 items-center justify-center rounded-sm bg-foreground text-[0.55rem] font-bold text-background" aria-hidden="true">E</span>
+          <span>EmDash template</span>
+        </a>
+      </div>
+      <h1 class="text-3xl font-bold tracking-tight text-foreground">A focused home for your work.</h1>
+      <p class="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">Minastro is a quiet, responsive starter for publishing thoughtful posts and showing the projects behind them. EmDash is the source of truth for content, and the complete site deploys directly to Cloudflare.</p>
+    </header>
+
+    <section aria-labelledby="highlighted-features-heading" class="mt-12">
+      <div class="mb-4 max-w-xl">
+        <h2 id="highlighted-features-heading" class="mt-1 text-xl font-semibold tracking-tight">Highlighted features</h2>
+        <p class="mt-1.5 text-sm leading-relaxed text-muted-foreground">A practical publishing foundation, already connected from editing through deployment.</p>
+      </div>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <article class="card"><section class="flex gap-3"><span class="inline-flex size-8 shrink-0 items-center justify-center rounded-md bg-secondary text-secondary-foreground" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"></path><path d="M3 12c0 1.7 4 3 9 3s9-1.3 9-3"></path></svg></span><div><h3 class="text-sm font-semibold text-foreground">EmDash-managed content</h3><p class="mt-1 text-sm leading-relaxed text-muted-foreground">Manage posts, projects, menus, settings, and media without moving content into the codebase.</p></div></section></article>
+        <article class="card"><section class="flex gap-3"><span class="inline-flex size-8 shrink-0 items-center justify-center rounded-md bg-secondary text-secondary-foreground" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"></path><path d="m17 5-5-3-5 3"></path><path d="m17 19-5 3-5-3"></path><path d="M2 12h20"></path></svg></span><div><h3 class="text-sm font-semibold text-foreground">One-command Cloudflare setup</h3><p class="mt-1 text-sm leading-relaxed text-muted-foreground">Provision the required bindings and deploy with <code class="rounded bg-muted px-1 py-0.5 text-xs text-foreground">bun run cloudflare:setup</code>.</p></div></section></article>
+        <article class="card"><section class="flex gap-3"><span class="inline-flex size-8 shrink-0 items-center justify-center rounded-md bg-secondary text-secondary-foreground" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path><path d="M5 20a3 3 0 0 1 3-3"></path></svg></span><div><h3 class="text-sm font-semibold text-foreground">Search and RSS</h3><p class="mt-1 text-sm leading-relaxed text-muted-foreground">Built-in search and an RSS feed keep published work easy to find and follow.</p></div></section></article>
+        <article class="card"><section class="flex gap-3"><span class="inline-flex size-8 shrink-0 items-center justify-center rounded-md bg-secondary text-secondary-foreground" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></span><div><h3 class="text-sm font-semibold text-foreground">Opt-in newsletter</h3><p class="mt-1 text-sm leading-relaxed text-muted-foreground">Add Turnstile-protected signup and Resend delivery only when the publication needs it.</p></div></section></article>
+      </div>
+    </section>
+
+    <div class="mt-12 grid gap-8 md:grid-cols-2">
+      <section aria-labelledby="latest-writing-heading" class="card flex h-full flex-col">
+        <header><div class="flex items-baseline justify-between gap-3"><h2 id="latest-writing-heading">Latest writing</h2><a href="/posts" class="text-xs text-muted-foreground hover:text-foreground">View all</a></div><p class="mt-1.5">Published posts from EmDash, ordered by date.</p></header>
+        <section class="flex-1">
+          <ul class="grid gap-4">
+            {posts.map((post) => <li><a href={`/posts/${post.slug}`} class="group block rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{post.featuredImage && <img class="content-image mb-3 aspect-[16/9] w-full rounded-md object-cover" src={post.featuredImage.src} alt={post.featuredImage.alt} loading="lazy" />}<h3 class="font-medium leading-snug group-hover:underline">{post.title}</h3><p class="mt-1 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{post.description}</p><p class="mt-2 text-xs text-muted-foreground">{post.publishedAt ? formatDate(post.publishedAt) : "Recently"} · {readingTime(post.content)}</p><div class="mt-3 flex flex-wrap gap-1.5">{post.tags.map((tag) => <span class="badge-outline text-xs">{tag}</span>)}</div></a></li>)}
+          </ul>
+        </section>
+      </section>
+
+      <section aria-labelledby="selected-work-heading" class="card flex h-full flex-col">
+        <header><div class="flex items-baseline justify-between gap-3"><h2 id="selected-work-heading">Selected work</h2><a href="/projects" class="text-xs text-muted-foreground hover:text-foreground">View all</a></div><p class="mt-1.5">Featured projects from EmDash, ordered by date.</p></header>
+        <section class="flex-1">
+          <ul class="grid gap-4">
+            {projects.filter((project) => project.featured).map((project) => <li><a href={`/projects/${project.slug}`} class="group block rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{project.featuredImage && <img class="content-image mb-3 aspect-[16/9] w-full rounded-md object-cover" src={project.featuredImage.src} alt={project.featuredImage.alt} loading="lazy" />}<div class="flex items-center gap-2"><h3 class="font-medium leading-snug group-hover:underline">{project.title}</h3><span class="badge-outline text-xs">{statusLabel[project.status]}</span></div><p class="mt-1 text-sm leading-relaxed text-muted-foreground">{project.description}</p><div class="mt-3 flex flex-wrap gap-1.5">{project.tags.map((tag) => <span class="badge-outline text-xs">{tag}</span>)}</div>{(project.github || project.url) && <div class="mt-3 flex flex-wrap gap-3 text-xs text-muted-foreground">{project.github && <span>GitHub</span>}{project.url && <span>Live site</span>}</div>}</a></li>)}
+          </ul>
+        </section>
+      </section>
+    </div>
+
+    <div class="mt-8 flex flex-wrap gap-3"><a href="/newsletter" class="btn">Subscribe to the newsletter</a><a href="/posts" class="btn-outline">Explore example posts</a></div>
+  </div>
+</Layout>
