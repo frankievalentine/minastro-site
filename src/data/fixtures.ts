@@ -41,7 +41,6 @@ export const navigation = [
   { label: "About", href: "/" },
   { label: "Posts", href: "/posts" },
   { label: "Projects", href: "/projects" },
-  { label: "Start here", href: "/start-here" },
   { label: "Newsletter", href: "/newsletter" },
 ] as const;
 
@@ -101,16 +100,6 @@ export const projects: ProjectFixture[] = [
   },
 ];
 
-export const startHerePage = {
-  slug: "start-here",
-  title: "Start here",
-  description:
-    "A CMS-managed page you can replace, reorder in the sidebar, or remove when making Minastro your own.",
-  content: [
-    "This page is managed in EmDash. Edit it in the Pages collection, then update the Primary Navigation menu to control where it appears in the sidebar.",
-  ],
-} as const;
-
 export const examplePost: PostFixture = {
   slug: "example",
   title: "Designing a calmer publishing workflow",
@@ -157,5 +146,4 @@ export const searchEntries = [
     href: `/projects/${project.slug}`,
   })),
   { title: exampleProject.title, description: exampleProject.description, type: "Project", href: "/projects/example" },
-  { title: startHerePage.title, description: startHerePage.description, type: "Page", href: "/start-here" },
 ];

@@ -19,7 +19,6 @@ The production build is written to `dist/`. For Cloudflare Pages, use `bun run b
 - `/posts/example`
 - `/projects`
 - `/projects/example`
-- `/start-here`
 - `/newsletter`
 
 Seeded posts and projects also receive static detail pages. Search runs entirely in the browser against the bundled fixture index.
