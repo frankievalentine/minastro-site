@@ -150,11 +150,13 @@ function isActive(href: string): boolean {
       const openButton = document.querySelector<HTMLButtonElement>("#sidebar-open");
       const closeButton = document.querySelector<HTMLButtonElement>("#sidebar-close");
       const desktopQuery = window.matchMedia("(min-width: 768px)");
+      const profileMenu = document.querySelector<HTMLDetailsElement>(".profile-menu");
 
       const setSidebar = (open: boolean, restoreFocus = false) => {
         sidebar?.setAttribute("aria-hidden", String(!open));
         openButton?.setAttribute("aria-expanded", String(open));
         document.body.classList.toggle("sidebar-open", open && !desktopQuery.matches);
+        if (!open && profileMenu) profileMenu.open = false;
         if (open && !desktopQuery.matches) closeButton?.focus();
         if (!open && restoreFocus) openButton?.focus();
       };
@@ -171,6 +173,20 @@ function isActive(href: string): boolean {
       });
       desktopQuery.addEventListener("change", syncSidebar);
       syncSidebar();
+
+      // A native <details> only toggles from its <summary>, so close the profile
+      // menu on outside click, Escape, or when one of its actions is chosen.
+      document.addEventListener("click", (event) => {
+        if (profileMenu?.open && !profileMenu.contains(event.target as Node)) profileMenu.open = false;
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape" || !profileMenu?.open) return;
+        profileMenu.open = false;
+        profileMenu.querySelector("summary")?.focus();
+      });
+      profileMenu?.addEventListener("click", (event) => {
+        if ((event.target as Element).closest(".profile-action")) profileMenu.open = false;
+      });
 
       const themeToggle = document.querySelector<HTMLButtonElement>("#theme-toggle");
       const themeLabel = document.querySelector<HTMLElement>(".theme-label");
